@@ -16,14 +16,13 @@
         goto exit;
 
 int main(void) {
-
-    char row_char[MAX_TABLE_VAL_LEN], column_char[MAX_TABLE_VAL_LEN], *chart[ROWS][COLS], *current_name;
+    char row_char[MAX_TABLE_VAL_LEN], column_char[MAX_TABLE_VAL_LEN], *table[ROWS][COLS];
     int row, column;
 
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            chart[i][j] = malloc(MAX_NAME_LEN);
-            if (chart[i][j] == NULL) {
+            table[i][j] = malloc(MAX_NAME_LEN);
+            if (table[i][j] == NULL) {
                 printf("Out of memory.");
                 return 1;
             }
@@ -32,43 +31,38 @@ int main(void) {
 
     printf("Type `%s` at any point to exit.\nROWS=%d COLS=%d MAX_NAME_LEN=%d-2\n\n", EXIT_COMMAND, ROWS, COLS, MAX_NAME_LEN);
     
-    /* Get col */
-    printf(" col: ");
-    while (fgets(column_char, MAX_TABLE_VAL_LEN, stdin)) {
+    while (1) {
+        /* Get col */
+        printf(" col: "); fgets(column_char, MAX_TABLE_VAL_LEN, stdin);
         CHECK_FOR_EXIT(column_char);
         column = atoi(column_char);
         if (column-1 < COLS) {
-            /* Get row */
-            printf(" row: ");
-            while (fgets(row_char, MAX_TABLE_VAL_LEN, stdin)) {
+            while (1) {
+                /* Get row */
+                printf(" row: "); fgets(row_char, MAX_TABLE_VAL_LEN, stdin);
                 CHECK_FOR_EXIT(row_char);
                 row = atoi(row_char);
                 if (row-1 < ROWS) {
                     /* Get name */
-                    printf("name: ");
-                    current_name = chart[row-1][column-1];
-                    fgets(current_name, MAX_NAME_LEN, stdin);
-                    CHECK_FOR_EXIT(current_name);
+                    printf("name: "); fgets(table[row-1][column-1], MAX_NAME_LEN, stdin);
+                    CHECK_FOR_EXIT(table[row-1][column-1]);
                     break;
                 } else {
                     printf("Out of bounds.\n");
-                    printf(" row: ");
                     continue;
                 }
             }
 
-            /* Print chart */
+            /* Print table */
             for (int i = 0; i < ROWS; i++) {
                 for (int j = 0; j < COLS; j++) {
-                    printf("|%*s|", TABLE_COL_SPACE, chart[i][j]);
+                    printf("|%*s|", TABLE_COL_SPACE, table[i][j]);
                 }
                 putchar('\n');
             }
         
-            printf(" col: ");
         } else {
             printf("Out of bounds.\n");
-            printf(" col: ");
             continue;
         }
     }
@@ -76,7 +70,7 @@ int main(void) {
 exit:
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            free(chart[i][j]);
+            free(table[i][j]);
         }
     }
     printf("\n\nFreed memory. Exiting.\n");
