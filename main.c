@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* CONFIG */
 #define ROWS 5 // <-- number of rows in table
 #define COLS 5 // <-- number of columns in table
 #define TABLE_COL_SPACE 10 // <-- max size of name
 #define MAX_TABLE_VAL_LEN 5
 #define EXIT_COMMAND "q"
+/* ------ */
 
 #define MAX_NAME_LEN (TABLE_COL_SPACE+2) // !! DO NOT TOUCH !!
 
